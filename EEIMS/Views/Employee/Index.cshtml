@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<button class="btn btn-primary" type="button" id = "getEmployeesButton">Get List</button>
+<button class="btn btn-primary" type="button" id = "assignAdminButton">Assign Admin</button>
+<button class="btn btn-primary" type="button" id = "getEmployeesButton">View Request</button>
+                    ,
+<table class="table table-info table-light table-hover ">
+    <caption>List of members</caption>
+    <thead class="table-light">
+        <tr>
+            <th>
+                @Html.Label("ID")
+            </th>
+            <th>
+                @Html.Label("First Name")
+            </th>
+            <th>
+                @Html.Label("Last Name")
+            </th>
+            <th>
+                @Html.Label("Designation")
+            </th>
+            <th>
+                @Html.Label("Action")
+            </th>
+
+        </tr>
+    </thead>
+    <tbody id="employeeTbody"></tbody>
+</table>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Employee/GetEmployeeList",
+                method: "GET",
+                success: function (data) {
+                    alert("hello");
+                    console.log(data)
+                    $('#employeeTbody').empty();
+                    var html = "";
+                    $.each(data, function (key, item) {
+                        html = "<tr>"
+                            + "<td>" + item.EmployeeId + "</td>"
+                            + "<td>" + item.FirstName + "</td>"
+                            + "<td>" + item.LastName + "</td>"
+                            + "<td>" + item.Designation + "</td>"
+                            + "<td>" + item.Department + "</td>"
+                            + "</tr>";
+                        $('#employeeTbody').append(html);
+                    });
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        });
+    </script>
+}
