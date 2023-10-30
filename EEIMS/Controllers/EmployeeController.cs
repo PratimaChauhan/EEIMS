@@ -58,11 +58,11 @@ namespace EEIMS.Controllers
         //
         // POST: /Employee/FirstTimeAddEmployee
         [HttpPost]
-        public ActionResult FirstTimeAddEmployee(FirstTimeAddEmployeeViewModel employee)
+        public  ActionResult FirstTimeAddEmployee(FirstTimeAddEmployeeViewModel employee)
         {
             if (ModelState.IsValid)
             {
-                _employeeRepository.AddOnce(employee);
+                 _employeeRepository.AddOnce(employee);
                 return RedirectToAction("Index", "Employee");
             }
             return View();

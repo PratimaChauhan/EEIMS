@@ -1,64 +1,65 @@
 ﻿
+@model EEIMS.Models.GetAllEmployeeVewModel
 @{
     ViewBag.Title = "Index";
 }
 
-<button class="btn btn-primary" type="button" id = "getEmployeesButton">Get List</button>
-<button class="btn btn-primary" type="button" id = "assignAdminButton">Assign Admin</button>
-<button class="btn btn-primary" type="button" id = "getEmployeesButton">View Request</button>
+<h3 style="align-items:center">Employee List</h3>
                     ,
-<table class="table table-info table-light table-hover ">
+<table id="employeeTbl" class="table table-info table-light table-hover ">
     <caption>List of members</caption>
-    <thead class="table-light">
-        <tr>
-            <th>
-                @Html.Label("ID")
-            </th>
-            <th>
-                @Html.Label("First Name")
-            </th>
-            <th>
-                @Html.Label("Last Name")
-            </th>
-            <th>
-                @Html.Label("Designation")
-            </th>
-            <th>
-                @Html.Label("Action")
-            </th>
-
-        </tr>
-    </thead>
-    <tbody id="employeeTbody"></tbody>
+    
 </table>
 
-@section Scripts {
 
+@section scripts{
     <script>
         $(document).ready(function () {
-            $.ajax({
-                url: "/Employee/GetEmployeeList",
-                method: "GET",
-                success: function (data) {
-                    alert("hello");
-                    console.log(data)
-                    $('#employeeTbody').empty();
-                    var html = "";
-                    $.each(data, function (key, item) {
-                        html = "<tr>"
-                            + "<td>" + item.EmployeeId + "</td>"
-                            + "<td>" + item.FirstName + "</td>"
-                            + "<td>" + item.LastName + "</td>"
-                            + "<td>" + item.Designation + "</td>"
-                            + "<td>" + item.Department + "</td>"
-                            + "</tr>";
-                        $('#employeeTbody').append(html);
-                    });
+            $('#employeeTbl').DataTable({
+                ajax: {
+                    url: '/Employee/GetEmployeeList',
+                    dataSrc: ''
                 },
-                error: function (err) {
-                    alert(err);
-                }
+                columns: [
+                    { title: 'Employee ID', data: 'EmployeeId' },
+                    { title: 'First Name', data: 'FirstName' },
+                    { title: 'Last Name', data: 'LastName' },
+                    { title: 'Designation', data: 'Designation' },
+                    { title: 'Department', data: 'Department' },
+                    {
+                        title: 'Actions',
+                        data: null,
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-primary" onclick="editEmployee(' + row.EmployeeId + ')">Edit</button>' +
+                                '<button class="btn btn-danger" onclick="deleteEmployee(' + row.EmployeeId + ')">Delete</button>' +
+                                '<button class="btn btn-info" onclick="getEmployeeDetails(' + row.EmployeeId + ')">Details</button>';
+                        }
+                    }
+                ]
             });
         });
+
+        function editEmployee(id) {
+            // Add your edit employee code here
+        }
+
+        function deleteEmployee(id) {
+            function deleteEmployee(id) {
+                $.ajax({
+                    url: '/Employee/DeleteEmployee',
+                    type: 'POST',
+                    data: { 'id': id },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#employeeTbl').DataTable().ajax.reload();
+                        } else { alert(result.message); }
+                    }
+                });
+            }
+        }
+
+        function getEmployeeDetails(id) {
+            // Add your get employee details code here
+        }
     </script>
 }

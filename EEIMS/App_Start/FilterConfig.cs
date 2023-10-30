@@ -8,7 +8,7 @@ namespace EEIMS
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new AuthorizeAttribute()); //to apply global [Authorize] attribute
+            //filters.Add(new AuthorizeAttribute()); //to apply global [Authorize] attribute
         }
     }
 }

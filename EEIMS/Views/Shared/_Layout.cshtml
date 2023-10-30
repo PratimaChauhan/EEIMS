@@ -8,19 +8,12 @@
     <meta name="author" content="">
     <title>@ViewBag.Title - My ASP.NET Application</title>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-
-    <!-- Custom fonts for this template-->
-    <link href="~/Content/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
-
     <!-- Custom styles-->
+    @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
     <link href="~/Content/css/sb-admin-2.min.css" rel="stylesheet">
-
-    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/dataTables.bootstrap5.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body id="page-top">
     <div id="wrapper">
@@ -35,14 +28,20 @@
             <li class="nav-item active">
                 <span class="nav-link">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    @Html.ActionLink("Dashboard", "Index", "Home", new { area = "" }, new { @class = "text-white" })
+                    @Html.ActionLink("Dashboard", "Index", "Home", new { area = "" }, new { @class = "text-white " })
                 </span>
             </li>
 
             <hr class="sidebar-divider border-light-subtle my-0">
 
-            <li class="nav-item active myIdFor">
+            <li class="nav-item active">
                 @Html.ActionLink("Employees", "Index", "Employee", new { area = "" }, htmlAttributes: new { @class = "text-white nav-link" })
+            </li>
+
+            <hr class="sidebar-divider border-light-subtle my-0">
+
+            <li class="nav-item active">
+                @Html.ActionLink("Roles", "AdminIndex", "Admin", new { area = "" }, htmlAttributes: new { @class = "text-white nav-link" })
             </li>
 
             <hr class="sidebar-divider border-light-subtle">
@@ -90,9 +89,11 @@
 
 
 
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
+    <script src="~/Scripts/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
