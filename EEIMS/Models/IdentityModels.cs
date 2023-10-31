@@ -16,6 +16,9 @@ namespace EEIMS.Models
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public static ApplicationDbContext Create()
         {
