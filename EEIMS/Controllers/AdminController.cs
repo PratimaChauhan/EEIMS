@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace EEIMS.Controllers
 {
@@ -31,14 +32,64 @@ namespace EEIMS.Controllers
         }
 
 
-        public ActionResult GetAdminRoleUsers()
+        public  ActionResult GetAdminRoleUsers()
         {
-            var roleStore= new RoleStore<IdentityRole>(new ApplicationDbContext());
-            var roleManager = new RoleManager<IdentityRole>(roleStore);
-            var users = roleManager.FindByName("Admin").Users;
+            var context = new ApplicationDbContext();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+               
+            var adminRole = roleManager.FindByName("Admin");
+            if(adminRole == null)
+            {
+                return View("Error");
+            }
+            var adminUsers = userManager.Users.Where(u => u.Roles.Any(r => r.RoleId == adminRole.Id)).ToList();
 
-            return View();
+            List<EmployeeRoleViewModel> adminRoleViewModels = new List<EmployeeRoleViewModel>();
+
+            foreach(var adminUser in adminUsers)
+            {
+                var employees = context.Employees.FirstOrDefault(e => e.Id == adminUser.Id);
+                var adminRoleViewModel = new EmployeeRoleViewModel
+                {
+                    EmployeeId = employees.EmployeeId,
+                    FullName = employees.FirstName + " " + employees.LastName
+                };
+                adminRoleViewModels.Add(adminRoleViewModel);
+            }
+            return Json(adminRoleViewModels, JsonRequestBehavior.AllowGet);
         }
+
+        public  ActionResult GetManagerRoleUsers()
+        {
+            var context = new ApplicationDbContext();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+               
+            var managerRole = roleManager.FindByName("Manager");
+            if(managerRole == null)
+            {
+                return View("Error");
+            }
+            var adminUsers = userManager.Users.Where(u => u.Roles.Any(r => r.RoleId == managerRole.Id)).ToList();
+
+            List<EmployeeRoleViewModel> managerRoleViewModels = new List<EmployeeRoleViewModel>();
+
+            foreach(var adminUser in adminUsers)
+            {
+                var employees = context.Employees.FirstOrDefault(e => e.Id == adminUser.Id);
+                var managerRoleViewModel = new EmployeeRoleViewModel
+                {
+                    Id = adminUser.Id,
+                    EmployeeId = employees.EmployeeId,
+                    FullName = employees.FirstName + " " + employees.LastName
+                };
+                managerRoleViewModels.Add(managerRoleViewModel);
+            }
+
+            return Json(managerRoleViewModels, JsonRequestBehavior.AllowGet);
+        }
+
 
         //
         // GET: /UserId

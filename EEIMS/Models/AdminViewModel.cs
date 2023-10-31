@@ -11,10 +11,12 @@ namespace EEIMS.Models
         public string Role { get; set; }
     }
 
-    public class AdminRoleViewModel
+    public class EmployeeRoleViewModel
     {
         public string Id { get; set; }
         public int EmployeeId { get; set; }
         public string FullName { get; set; }
+        
+
     }
 }
