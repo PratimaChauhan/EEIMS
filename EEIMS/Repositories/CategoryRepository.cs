@@ -10,20 +10,38 @@ namespace EEIMS.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
+
         public CategoryRepository()
         {
-            _context = new ApplicationDbContext();
+
+        }
+
+        public CategoryRepository(ApplicationDbContext applicationDbContext)
+        {
+            Context = applicationDbContext;
+        }
+
+        public ApplicationDbContext Context
+        {
+            get
+            {
+                return _context ?? new ApplicationDbContext();
+            }
+            private set
+            {
+                _context = value;
+            }
         }
         int ICategoryRepository.DeleteCategory(int id)
         {
-            _context.Categories.Remove(_context.Categories.Where(c => c.CategoryId == id).FirstOrDefault());
-            return _context.SaveChanges();
+            Context.Categories.Remove(Context.Categories.Where(c => c.CategoryId == id).FirstOrDefault());
+            return Context.SaveChanges();
         }
 
         IEnumerable<AddCategoryViewModel> ICategoryRepository.GetCategories()
         {
-            return _context.Categories.Select(c => new AddCategoryViewModel 
+            return Context.Categories.Select(c => new AddCategoryViewModel 
             { 
                 CategoryId = c.CategoryId, 
                 CategoryName = c.CategoryName 
@@ -32,7 +50,7 @@ namespace EEIMS.Repositories
 
         AddCategoryViewModel ICategoryRepository.GetCategoryById(int id)
         {
-             var category = _context.Categories.Where(c => c.CategoryId == id).Select(c => new AddCategoryViewModel 
+             var category = Context.Categories.Where(c => c.CategoryId == id).Select(c => new AddCategoryViewModel 
                 { 
                     CategoryId = c.CategoryId, 
                     CategoryName = c.CategoryName 
@@ -49,16 +67,16 @@ namespace EEIMS.Repositories
                 CategoryName = model.CategoryName 
             };
 
-            _context.Categories.Add(category);
-            return _context.SaveChanges();
+            Context.Categories.Add(category);
+            return Context.SaveChanges();
         }
 
 
 
         int ICategoryRepository.UpdateCategory(AddCategoryViewModel category)
         {
-            _context.Categories.FirstOrDefault(c => c.CategoryId == category.CategoryId).CategoryName = category.CategoryName;  
-            return _context.SaveChanges();
+            Context.Categories.FirstOrDefault(c => c.CategoryId == category.CategoryId).CategoryName = category.CategoryName;  
+            return Context.SaveChanges();
         }
     }
 }

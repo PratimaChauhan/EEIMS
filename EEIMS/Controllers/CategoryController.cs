@@ -13,11 +13,11 @@ namespace EEIMS.Controllers
     {
         // GET: Category
 
-        private ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryController()
+        public CategoryController(ICategoryRepository categoryRepository)
         {
-            _categoryRepository = new CategoryRepository();
+            _categoryRepository = categoryRepository;
             
         }
         public ActionResult Index()

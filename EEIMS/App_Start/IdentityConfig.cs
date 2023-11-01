@@ -24,7 +24,7 @@ namespace EEIMS
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+            // email service here to send an email.
             var msg = new MailMessage();
             msg.From = new MailAddress("gk326747@gmail.com");
             msg.To.Add(new MailAddress(message.Destination));

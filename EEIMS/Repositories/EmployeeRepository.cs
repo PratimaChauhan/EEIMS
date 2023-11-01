@@ -11,16 +11,33 @@ namespace EEIMS.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
 
         public EmployeeRepository()
         {
-            _context = new ApplicationDbContext();
+
+        }
+
+        public EmployeeRepository(ApplicationDbContext applicationDbContext)
+        {
+            Context = applicationDbContext;
+        }
+
+        public ApplicationDbContext Context
+        {
+            get 
+            {
+                return _context ?? new ApplicationDbContext(); 
+            }
+            private set 
+            { 
+                _context = value; 
+            }
         }
 
         void IEmployeeRepository.AddOnce(FirstTimeAddEmployeeViewModel employee)
         {
-            var temp = _context.Employees.Where(e => e.Id == employee.Id).FirstOrDefault();
+            var temp = Context.Employees.Where(e => e.Id == employee.Id).FirstOrDefault();
             
             temp.FirstName = employee.FirstName;
             temp.LastName = employee.LastName;
@@ -33,20 +50,20 @@ namespace EEIMS.Repositories
 
         void IEmployeeRepository.Update(int id)
         {
-            _context.Entry(_context.Employees.Find(id)).State = EntityState.Modified;
+            Context.Entry(Context.Employees.Find(id)).State = EntityState.Modified;
             SaveChanges();
         }
 
 
         void IEmployeeRepository.Delete(Expression<Func<Employee, bool>> where)
         {
-            _context.Employees.Remove(_context.Employees.Where(where).FirstOrDefault());
+            Context.Employees.Remove(Context.Employees.Where(where).FirstOrDefault());
             SaveChanges();
         }
 
         void IEmployeeRepository.DeleteById(int id)
         {
-            _context.Employees.Remove(_context.Employees.Where(e => e.EmployeeId == id).FirstOrDefault());
+            Context.Employees.Remove(Context.Employees.Where(e => e.EmployeeId == id).FirstOrDefault());
             SaveChanges();
         }
 
@@ -58,24 +75,24 @@ namespace EEIMS.Repositories
         }
         Employee IEmployeeRepository.Get(Expression<Func<Employee, bool>> where)
         {
-            return _context.Employees.Where(where).FirstOrDefault();
+            return Context.Employees.Where(where).FirstOrDefault();
         }
 
 
         IEnumerable<Employee> IEmployeeRepository.GetAllEmployee()
         {
-            return _context.Employees.ToList();
+            return Context.Employees.ToList();
         }
 
         IEnumerable<Employee> IEmployeeRepository.GetMany(Expression<Func<Employee, bool>> where)
         {
-            return _context.Employees.Where(where).ToList();
+            return Context.Employees.Where(where).ToList();
         }
 
 
         void SaveChanges()
         {
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
     }
 }

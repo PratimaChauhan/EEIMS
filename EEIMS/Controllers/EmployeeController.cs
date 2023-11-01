@@ -20,9 +20,13 @@ namespace EEIMS.Controllers
 
         public EmployeeController()
         {
-            _employeeRepository = new EmployeeRepository();
+            
         }
 
+        public EmployeeController(IEmployeeRepository employeeRepository)
+        {
+            _employeeRepository = employeeRepository;
+        }
 
         public ActionResult Index()
         {
