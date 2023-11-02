@@ -20,6 +20,7 @@ namespace EEIMS.Models
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -30,6 +31,7 @@ namespace EEIMS.Models
         {
             modelBuilder.Configurations.Add(new EmployeeConfiguration());
             modelBuilder.Configurations.Add(new RequestConfiguration());
+            modelBuilder.Configurations.Add(new AssignmentConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }   

@@ -33,5 +33,7 @@ namespace EEIMS.Models
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual ICollection<Request> Requests { get; set; }
+
+        public virtual ICollection<Assignment> Assignments { get; set; }
     }
 }

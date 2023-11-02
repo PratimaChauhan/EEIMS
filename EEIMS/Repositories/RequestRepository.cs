@@ -80,7 +80,7 @@ namespace EEIMS.Repositories
             {
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
-                return false;
+            return false;
         }
         
         public bool DenyRequest(int requestId)

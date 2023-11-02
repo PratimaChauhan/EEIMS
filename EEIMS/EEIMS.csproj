@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\EmployeesController.cs" />
+    <Compile Include="Controllers\AssignmentController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
@@ -239,12 +240,23 @@
     <Compile Include="Migrations\202311021433589_UpdateStatusEnum.designer.cs">
       <DependentUpon>202311021433589_UpdateStatusEnum.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202311021633247_AssignmentModel.cs" />
+    <Compile Include="Migrations\202311021633247_AssignmentModel.designer.cs">
+      <DependentUpon>202311021633247_AssignmentModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202311021723005_update.cs" />
+    <Compile Include="Migrations\202311021723005_update.designer.cs">
+      <DependentUpon>202311021723005_update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ModelConfigurations\AssignmentConfiguration.cs" />
     <Compile Include="ModelConfigurations\EmployeeConfiguration.cs" />
     <Compile Include="ModelConfigurations\RequestConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Assignment.cs" />
+    <Compile Include="Models\AssignmentViewModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -376,6 +388,8 @@
     <Content Include="Views\Request\Index.cshtml" />
     <Content Include="Views\Request\AddNewRequest.cshtml" />
     <Content Include="Views\Request\ReviewRequests.cshtml" />
+    <Content Include="Views\Assignment\CreateNewAssinment.cshtml" />
+    <Content Include="Views\Assignment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -434,6 +448,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202311021433589_UpdateStatusEnum.resx">
       <DependentUpon>202311021433589_UpdateStatusEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311021633247_AssignmentModel.resx">
+      <DependentUpon>202311021633247_AssignmentModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311021723005_update.resx">
+      <DependentUpon>202311021723005_update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

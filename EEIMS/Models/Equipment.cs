@@ -27,5 +27,7 @@ namespace EEIMS.Models
         
         public int CategoryId { get; set; }
         public virtual Category CategoryReference { get; set; }
+
+        public virtual ICollection<Assignment> Assignments { get; set; }
     }
 }
