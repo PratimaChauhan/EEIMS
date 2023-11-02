@@ -37,29 +37,58 @@ namespace EEIMS.Repositories
 
         #region Public Methods
 
-        int IEquipmentRepository.Add(AddEquipmentViewModel item)
+        int IEquipmentRepository.AddEquipment(AddEquipmentViewModel item)
         {
-            throw new NotImplementedException();
+            var model = new Equipment
+            {
+                Name = item.Name,
+                ItemModel = item.ItemModel,
+                SerialNumber = item.SerialNumber,
+                Description = item.Description,
+                EquipmentStatus = item.EquipmentStatus,
+                CategoryId = item.CategoryId,
+                PurchaseDate= DateTime.Now
+            };
+            Context.Equipments.Add(model);
+            return Context.SaveChanges();
         }
 
-        Equipment IEquipmentRepository.Get(int id)
+        UpdateEquipmentViewModel IEquipmentRepository.GetEquipment(int id)
         {
-            throw new NotImplementedException();
+            return Context.Equipments.Where(e => e.EquipmentId == id).Select(e => new UpdateEquipmentViewModel
+            {
+                EquipmentId = e.EquipmentId,
+                Name = e.Name,
+                ItemModel = e.ItemModel,
+                SerialNumber = e.SerialNumber,
+                Description = e.Description,
+                EquipmentStatus = e.EquipmentStatus,
+                CategoryId = e.CategoryId
+            }).FirstOrDefault();
         }
 
-        IEnumerable<Equipment> IEquipmentRepository.GetAll()
+        IEnumerable<Equipment> IEquipmentRepository.GetAllEquipments()
         {
-            throw new NotImplementedException();
+            return Context.Equipments.ToList();
         }
 
-        int IEquipmentRepository.Remove(int id)
+        int IEquipmentRepository.RemoveEquipment(int id)
         {
-            throw new NotImplementedException();
+            Context.Equipments.Remove(Context.Equipments.Where(e => e.EquipmentId==id).FirstOrDefault());
+            return Context.SaveChanges();
         }
 
-        int IEquipmentRepository.Update(Equipment item)
+        int IEquipmentRepository.UpdateEquipment(UpdateEquipmentViewModel item)
         {
-            throw new NotImplementedException();
+            var equip = Context.Equipments.Where(e => e.EquipmentId == item.EquipmentId).FirstOrDefault();
+            equip.Name = item.Name;
+            equip.ItemModel = item.ItemModel;
+            equip.SerialNumber = item.SerialNumber;
+            equip.Description = item.Description;
+            equip.CategoryId = item.CategoryId;
+
+            return Context.SaveChanges();
+
         }
 
 

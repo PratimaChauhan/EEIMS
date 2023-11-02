@@ -71,7 +71,7 @@ namespace EEIMS.Repositories
         // Summary: For getting employee by Id (string Type)
         Employee IEmployeeRepository.GetById(string id)
         {
-            return _context.Employees.Where(e => e.Id == id).FirstOrDefault();
+            return Context.Employees.Where(e => e.Id == id).FirstOrDefault();
         }
         Employee IEmployeeRepository.Get(Expression<Func<Employee, bool>> where)
         {

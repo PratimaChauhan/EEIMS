@@ -9,10 +9,6 @@ namespace EEIMS.Models
 {
     public class Employee
     {
-        public Employee()
-        {
-            Requests = new HashSet<Request>();
-        }
 
         [Display(Name = "Employee Id")]
         public int EmployeeId { get; set; }
@@ -37,6 +33,5 @@ namespace EEIMS.Models
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual ICollection<Request> Requests { get; set; }
-
     }
 }

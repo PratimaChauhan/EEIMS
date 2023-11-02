@@ -22,6 +22,7 @@ namespace EEIMS
 
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
             container.RegisterType<ICategoryRepository, CategoryRepository>();
+            container.RegisterType<IEquipmentRepository, EquipmentRepository>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
