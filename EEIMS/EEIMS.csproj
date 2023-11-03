@@ -248,6 +248,10 @@
     <Compile Include="Migrations\202311021723005_update.designer.cs">
       <DependentUpon>202311021723005_update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202311030326534_TableAttributesUpdate.cs" />
+    <Compile Include="Migrations\202311030326534_TableAttributesUpdate.designer.cs">
+      <DependentUpon>202311030326534_TableAttributesUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelConfigurations\AssignmentConfiguration.cs" />
     <Compile Include="ModelConfigurations\EmployeeConfiguration.cs" />
@@ -454,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202311021723005_update.resx">
       <DependentUpon>202311021723005_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311030326534_TableAttributesUpdate.resx">
+      <DependentUpon>202311030326534_TableAttributesUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

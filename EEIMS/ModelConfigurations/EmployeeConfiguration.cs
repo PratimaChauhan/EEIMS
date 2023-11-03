@@ -13,12 +13,12 @@ namespace EEIMS.ModelConfigurations
         {
             ToTable("Employees");
             HasKey(u => u.EmployeeId);
-            Property(u => u.FirstName).HasMaxLength(50);
-            Property(u => u.LastName).HasMaxLength(50);
+            Property(u => u.FirstName).HasMaxLength(100);
+            Property(u => u.LastName).HasMaxLength(100);
             Property(u => u.PhoneNumber).HasMaxLength(20);
             Property(u => u.Department).HasMaxLength(50);
             Property(u => u.Designation).HasMaxLength(50);
-            Property(u => u.Email).HasMaxLength(50);
+            Property(u => u.Email).HasMaxLength(100);
         }
     }
 }

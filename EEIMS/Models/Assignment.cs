@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,8 @@ namespace EEIMS.Models
 {
     public class Assignment
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AssignId { get; set; }
         public DateTime AssignDate { get; set; }
         public DateTime ExpectedReturnDate { get; set; }
@@ -22,7 +26,7 @@ namespace EEIMS.Models
     }
 
     public enum AssignStatus
-{
+    {
         assigned,
         returned,
         overdue

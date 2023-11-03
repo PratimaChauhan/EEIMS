@@ -34,6 +34,7 @@ namespace EEIMS.Models
             modelBuilder.Configurations.Add(new AssignmentConfiguration());
 
             base.OnModelCreating(modelBuilder);
-        }   
+
+        }
     }
 }
