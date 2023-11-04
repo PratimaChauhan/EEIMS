@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "AdminIndex";
+    ViewBag.Title = "ManagerIndex";
 }
 
-<h2>Admin Role</h2>
+<h2>Manager Role</h2>
 
 <div class="container">
     <!-- Button trigger modal -->
@@ -29,9 +29,8 @@
             </div>
         </div>
     </div>
-
     <div class="table-responsive">
-        <table class="table  table-hover" id="adminRoleTbl">
+        <table class="table  table-hover" id="managerRoleTbl">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">
@@ -53,17 +52,16 @@
     </div>
 </div>
 
-
     @section scripts{
         <script>
             $(document).ready(function () {
                 $.ajax({
-                    url: "/Admin/GetAdminUsers",
+                    url: "/Admin/GetManagerUsers",
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
                         console.log(data);
-                        $('#adminRoleTbl tbody').empty();
+                        $('#managerRoleTbl tbody').empty();
                         var items = '';
                         $.each(data, function (i, item) {
 
@@ -71,9 +69,9 @@
                                 + "<td>" + item.EmployeeId + "</td>"
                                 + "<td>" + item.FullName + "</td>"
                                 + "<td>" + item.Department + "</td>"
-                                + "<td><a href='/Admin/RevokeRoles/" + item.Id + "' class='btn btn-primary'>Revoke</a></td>"
+                                + "<td><a href='/Admin/RevokeRoles?id=" + item.Id + "' class='btn btn-primary'>Revoke</a></td>"
                                 + "</tr>";
-                            $('#adminRoleTbl tbody').append(rows);
+                            $('#managerRoleTbl tbody').append(rows);
                         });
                     },
                     error: function (error) {

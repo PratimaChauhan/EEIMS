@@ -10,15 +10,21 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Web.Helpers;
 
 namespace EEIMS.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   // [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         // Operations for: Admin
 
         public ActionResult AdminIndex()
+        {
+            return View();
+        } 
+        
+        public ActionResult ManagerIndex()
         {
             return View();
         }   
@@ -36,7 +42,7 @@ namespace EEIMS.Controllers
         }
 
 
-        public  ActionResult GetAdminRoleUsers()
+        public  ActionResult GetAdminUsers()
         {
             var context = new ApplicationDbContext();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -56,15 +62,17 @@ namespace EEIMS.Controllers
                 var employees = context.Employees.FirstOrDefault(e => e.Id == adminUser.Id);
                 var adminRoleViewModel = new EmployeeRoleViewModel
                 {
+                    Id = adminUser.Id,
                     EmployeeId = employees.EmployeeId,
-                    FullName = employees.FirstName + " " + employees.LastName
+                    FullName = employees.FirstName + " " + employees.LastName,
+                    Department = employees.Department
                 };
                 adminRoleViewModels.Add(adminRoleViewModel);
             }
-            return View(adminRoleViewModels);
+            return Json(adminRoleViewModels, JsonRequestBehavior.AllowGet);
         }
 
-        public  ActionResult GetManagerRoleUsers()
+        public  ActionResult GetManagerUsers()
         {
             var context = new ApplicationDbContext();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -86,7 +94,8 @@ namespace EEIMS.Controllers
                 {
                     Id = adminUser.Id,
                     EmployeeId = employees.EmployeeId,
-                    FullName = employees.FirstName + " " + employees.LastName
+                    FullName = employees.FirstName + " " + employees.LastName,
+                    Department = employees.Department
                 };
                 managerRoleViewModels.Add(managerRoleViewModel);
             }
@@ -96,18 +105,18 @@ namespace EEIMS.Controllers
 
 
         //
-        // GET: /UserId
+        // GET: Assign roles to users
         [HttpGet]
-        public  ActionResult AssignRoleToEmployee()
+        public  ActionResult AssignRole()
         {
             populateRolesListItem();
             return View();
         }
 
         //
-        // POST: /UserId
+        // POST: assign roles to users
         [HttpPost]
-        public async Task<ActionResult> AssignRoleToEmployee(AddRoleToUserViewModel model)
+        public async Task<ActionResult> AssignRole(AddRoleToUserViewModel model)
         {
             if (ModelState.IsValid)
             {   
@@ -145,6 +154,35 @@ namespace EEIMS.Controllers
             return View(model);
         }
 
+        // GET: Remove roles from user
+        public async Task<ActionResult> RevokeRoles(string id)
+        {
+            var context = new ApplicationDbContext();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                var roles = await userManager.GetRolesAsync(user.Id);
+                var result = await userManager.RemoveFromRolesAsync(user.Id, roles.ToArray());
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("AdminIndex", "Admin");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Failed to remove roles from the user.");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "User not found.");
+            }
+
+            return RedirectToAction("AdminIndex", "Admin");
+        }
+
         public void populateRolesListItem()
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
@@ -157,7 +195,5 @@ namespace EEIMS.Controllers
 
             ViewBag.Roles = roleItems;
         }
-
-
     }
 }
