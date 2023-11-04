@@ -13,6 +13,7 @@ using System.Data.Entity;
 
 namespace EEIMS.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         // Operations for: Admin
@@ -21,6 +22,9 @@ namespace EEIMS.Controllers
         {
             return View();
         }   
+
+        //
+        //
         public async  Task<ActionResult> CreatRoles()
         {
             var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
@@ -57,7 +61,7 @@ namespace EEIMS.Controllers
                 };
                 adminRoleViewModels.Add(adminRoleViewModel);
             }
-            return Json(adminRoleViewModels, JsonRequestBehavior.AllowGet);
+            return View(adminRoleViewModels);
         }
 
         public  ActionResult GetManagerRoleUsers()
